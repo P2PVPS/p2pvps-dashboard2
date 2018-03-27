@@ -1,4 +1,4 @@
-<template>
+/<template>
   <div id="app" style="border: 1px solid black">
     <header class="main-header">
       <!-- Logo -->
@@ -31,7 +31,7 @@
                     <li><!-- start message -->
                       <a href="#">
                         <div class="pull-left">
-                          <img src="/static/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                          <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                         </div>
                         <h4>
                           Support Team
@@ -44,7 +44,7 @@
                     <li>
                       <a href="#">
                         <div class="pull-left">
-                          <img src="/static/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                          <img src="/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                         </div>
                         <h4>
                           AdminLTE Design Team
@@ -56,7 +56,7 @@
                     <li>
                       <a href="#">
                         <div class="pull-left">
-                          <img src="/static/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                          <img src="/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                         </div>
                         <h4>
                           Developers
@@ -68,7 +68,7 @@
                     <li>
                       <a href="#">
                         <div class="pull-left">
-                          <img src="/static/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                          <img src="/img/user3-128x128.jpg" class="img-circle" alt="User Image">
                         </div>
                         <h4>
                           Sales Department
@@ -80,7 +80,7 @@
                     <li>
                       <a href="#">
                         <div class="pull-left">
-                          <img src="/static/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                          <img src="/img/user4-128x128.jpg" class="img-circle" alt="User Image">
                         </div>
                         <h4>
                           Reviewers
@@ -217,13 +217,13 @@
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="/static/img/profile-placeholder-white-grey.jpg" class="user-image" alt="User Image">
+                <img src="/img/profile-placeholder-white-grey.jpg" class="user-image" alt="User Image">
                 <span class="hidden-xs">Your Name</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="/static/img/profile-placeholder-white-grey.jpg" class="img-circle" alt="User Image">
+                  <img src="/img/profile-placeholder-white-grey.jpg" class="img-circle" alt="User Image">
 
                   <p>
                     <!-- Alexander Pierce - Web Developer -->
@@ -272,6 +272,57 @@
     <modalView></modalView> -->
   </div>
 </template>
+
+
+<script>
+  //import "../public/js/plugins/jQuery/jQuery-2.2.0.min.js"
+  //import "../public/js/plugins/bootstrap/bootstrap.min.js"
+  //import "../public/js/plugins/pace/pace.min.js"
+  //import "../public/js/adminlte.min.js" // Admin LTE
+  //import "../public/js/pages/dashboard.js" // Admin LTE Dashbord demo
+  //import "../public/js/demo.js" // Other Admin LTE demo code
+  //import "../public/js/jquery-ui/jquery-ui.min.js" // jQuery UI 1.11.4
+
+  //import LeftMenu from './components/LeftMenu'
+  //import ActiveView from './components/ActiveView.vue'
+  //import ModalView from './components/views/modal.vue'
+
+  export default {
+    name: 'app',
+    components: {
+      //LeftMenu,
+      //ActiveView,
+      //ModalView
+    },
+    data: function () {
+      return {
+        modalShow: false,
+        deviceUpdateTimer: null
+      }
+    },
+
+    methods: {
+      logOut: function () {
+        $.post('/keystone/api/session/signout', '', function (data) {
+          if (!data.success) {
+            console.error('Something went wrong with trying to log out. See App.vue logOut() method.')
+          }
+        })
+      }
+    },
+
+    mounted: function () {
+      // Retrieve the GUID for the currently logged in user
+      const guid = this.$store.state.userInfo.GUID
+      console.log(`guid: ${guid}`)
+
+      if(guid === '' || guid === 'Not Logged In')
+        this.$store.dispatch('getId')
+
+    }
+  }
+</script>
+
 
 <style>
 /*
