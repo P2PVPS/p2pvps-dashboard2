@@ -114,10 +114,9 @@
         })
         // If sending the data to the server fails:
         .fail((jqxhr, textStatus, error) => {
-          //debugger
+          debugger
           const globalThis = this
 
-          if (error === 'Unauthorized') {
             // Display a modal to the user
             var modal = {
               show: true,
@@ -133,13 +132,6 @@
               showLoginForm: true
             }
             this.$store.commit('UPDATE_MODAL', modal)
-          } else {
-            // var err = textStatus + ', ' + error
-
-            //global.modalView.errorModal('Request failed because of: ' + error + '. Error Message: ' + jqxhr.responseText)
-            console.log('Request Failed: ' + error)
-            console.error('Error message: ' + jqxhr.responseText)
-          }
         })
       },
 
