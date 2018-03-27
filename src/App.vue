@@ -265,34 +265,26 @@
       </nav>
     </header>
 
-    <!-- Vue Components
-
+    <!-- Vue Components -->
     <left-menu></left-menu>
     <activeView></activeView>
-    <modalView></modalView> -->
+    <modalView></modalView>
+
   </div>
 </template>
 
 
 <script>
-  //import "../public/js/plugins/jQuery/jQuery-2.2.0.min.js"
-  //import "../public/js/plugins/bootstrap/bootstrap.min.js"
-  //import "../public/js/plugins/pace/pace.min.js"
-  //import "../public/js/adminlte.min.js" // Admin LTE
-  //import "../public/js/pages/dashboard.js" // Admin LTE Dashbord demo
-  //import "../public/js/demo.js" // Other Admin LTE demo code
-  //import "../public/js/jquery-ui/jquery-ui.min.js" // jQuery UI 1.11.4
-
-  //import LeftMenu from './components/LeftMenu'
-  //import ActiveView from './components/ActiveView.vue'
-  //import ModalView from './components/views/modal.vue'
+  import LeftMenu from './components/LeftMenu'
+  import ActiveView from './components/ActiveView.vue'
+  import ModalView from './components/views/modal.vue'
 
   export default {
     name: 'app',
     components: {
-      //LeftMenu,
-      //ActiveView,
-      //ModalView
+      LeftMenu,
+      ActiveView,
+      ModalView
     },
     data: function () {
       return {
