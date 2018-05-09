@@ -30,6 +30,8 @@ export default {
   getId (context) {
     context.commit('SET_USER_ID', 'Not Logged In')
 
+    const globalThis = this;
+
     // Display a modal to the user
     var modal = {
       show: true,
@@ -37,8 +39,10 @@ export default {
       body: 'You are not logged in. Please log in below:',
       //button1Text: 'Close',
       //button1Func: function () { $('.appModal').modal('hide') },
-      button1Text: '',
-      button1Func: null,
+      button1Text: 'Create Account',
+      button1Func: function() {
+        globalThis.dispatch("createAccount");
+      },
       button1Show: true,
       button2Text: '',
       button2Func: null,
