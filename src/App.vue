@@ -306,11 +306,13 @@
     mounted: function () {
       // Retrieve the GUID for the currently logged in user
       const guid = this.$store.state.userInfo.GUID
-      console.log(`guid: ${guid}`)
+      //console.log(`guid: ${guid}`)
 
-      if(guid === '' || guid === 'Not Logged In')
+      if(guid === '' || guid === 'Not Logged In') {
         this.$store.dispatch('getId')
-
+        debugger
+        $('#modalClose').hide()
+      }
     }
   }
 </script>
