@@ -303,14 +303,21 @@
       }
     },
 
+    // Executes after the SPA has finished loading.
     mounted: function () {
       // Retrieve the GUID for the currently logged in user
       const guid = this.$store.state.userInfo.GUID
       //console.log(`guid: ${guid}`)
 
       if(guid === '' || guid === 'Not Logged In') {
+        // Prevent the user from dismissing the modal with the ESC button.
+        $('.appModal').attr('data-keyboard', 'false')
+
+        // Display the login modal.
         this.$store.dispatch('getId')
-        debugger
+
+        // Hide the close button on the modal, to prevent user from accidentally
+        // circumventing the login.
         $('#modalClose').hide()
       }
     }
