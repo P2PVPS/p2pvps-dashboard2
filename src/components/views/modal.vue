@@ -13,11 +13,11 @@
           <form v-if="this.$store.state.modal.showLoginForm">
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" v-model="loginEmail" placeholder="Email">
+              <input type="email" class="form-control" v-model="loginEmail" placeholder="Email" v-on:keyup.enter="submitForm">
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" v-model="loginPassword" placeholder="Password">
+              <input type="password" class="form-control" v-model="loginPassword" placeholder="Password" v-on:keyup.enter="submitForm">
             </div>
 
             <button type="button" class="btn btn-default" v-on:click="login()">Login</button>
@@ -44,6 +44,10 @@ export default {
   },
 
   methods: {
+    submitForm: function() {
+      console.log('Enter key was pressed')
+    },
+
     // Execute the function assigned to this button.
     btn1Func: function() {
       if (this.$store.state.modal.button1Func !== null) {
