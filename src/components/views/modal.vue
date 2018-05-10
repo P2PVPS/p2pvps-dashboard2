@@ -46,6 +46,7 @@ export default {
   methods: {
     submitForm: function() {
       console.log('Enter key was pressed')
+      this.login()
     },
 
     // Execute the function assigned to this button.
