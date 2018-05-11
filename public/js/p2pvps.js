@@ -1,36 +1,52 @@
-$(document).ready(function() {
+const server = "p2pvps.net";
+
+$(document).ready( function() {
   var devicePublicModels;
   var obContractModels;
+  debugger;
 
-  // get the devicePublicModels for each listed device.
-  getDeviceData()
-    .then(data => {
-      devicePublicModels = data;
+  try {
+    // get the devicePublicModels for each listed device.
+    const data = getDeviceData();
 
-      // console.log(`devicePublicModels = ${JSON.stringify(data,null,2)}`);
+    debugger
 
-      return getObContractData();
-    })
+    /*
+      .then(data => {
+        devicePublicModels = data;
 
-    // get the obContract model for each listed device.
-    .then(data => {
-      obContractModels = data;
+        // console.log(`devicePublicModels = ${JSON.stringify(data,null,2)}`);
 
-      console.log(`obContractModels = ${JSON.stringify(data, null, 2)}`);
+        return getObContractData();
+      })
 
-      return generateGrid(devicePublicModels, obContractModels);
-    });
+      // get the obContract model for each listed device.
+      .then(data => {
+        obContractModels = data;
+
+        console.log(`obContractModels = ${JSON.stringify(data, null, 2)}`);
+
+        return generateGrid(devicePublicModels, obContractModels);
+      })
+      */
+
+  } catch(err) {
+      debugger;
+      console.error(`Error in p2pvps.js: `, err);
+    }
 });
 
 // Retrieve all devicePublicModels from the server.
 function getDeviceData() {
   return new Promise(function(resolve, reject) {
-    return $.get("/api/devicePublicData/list", "", function(data) {
-      // debugger;
-
+    return $.get(`https://${server}/api/devicePublicData/list`, "", function(
+      data
+    ) {
       var collection = data.collection;
 
-      resolve(collection);
+      return resolve(collection);
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      return reject(jqXHR);
     });
   });
 }
@@ -38,9 +54,7 @@ function getDeviceData() {
 // Retrieve all obContract models from the server.
 function getObContractData() {
   return new Promise(function(resolve, reject) {
-    return $.get("/api/obContract/list", "", function(data) {
-      // debugger;
-
+    return $.get(`https://${server}/api/obContract/list`, "", function(data) {
       var collection = data.collection;
 
       resolve(collection);
