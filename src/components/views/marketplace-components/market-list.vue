@@ -13,7 +13,9 @@
     </thead>
     <tbody>
       <tr v-for="entry in filteredData">
-        <td v-for="key in columns" v-html="convertToHTML(entry[key])">
+        <td v-for="key in columns">
+          <span v-if="shapeHtml(entry[key])">{{ entry[key] }}</span>
+          <button v-if="!shapeHtml(entry[key])" type='button' class='btn btn-primary btn-xs' v-on:click="showListing(entry[key])">View</button>
         </td>
       </tr>
     </tbody>
@@ -107,6 +109,18 @@ export default {
     showListing(slug) {
       debugger;
       console.log(`slug was: ${slug}`);
+    },
+
+    shapeHtml(input) {
+      // OpenBazaar listing
+      if (input.toString().indexOf("ob:") > -1) {
+        return false;
+      // Description
+      } else if (input.toString().indexOf("desc:") > -1) {
+        return false;
+      }
+
+      return true;
     }
   }
 }
