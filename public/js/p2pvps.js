@@ -10,29 +10,12 @@ async function getDeviceData() {
   debugger;
 
   try {
-    // get the devicePublicModels for each listed device.
-    const data = await getDevices();
+    // get the devicePublicModels for all the devices on the server.
+    const devices = await getDevices();
 
-    debugger;
+    const contracts = await getObContractData();
 
-    /*
-      .then(data => {
-        devicePublicModels = data;
-
-        // console.log(`devicePublicModels = ${JSON.stringify(data,null,2)}`);
-
-        return getObContractData();
-      })
-
-      // get the obContract model for each listed device.
-      .then(data => {
-        obContractModels = data;
-
-        console.log(`obContractModels = ${JSON.stringify(data, null, 2)}`);
-
-        return generateGrid(devicePublicModels, obContractModels);
-      })
-      */
+    return generateGrid(devices, contracts);
   } catch (err) {
     debugger;
     console.error(`Error in p2pvps.js: `, err);
@@ -55,8 +38,8 @@ function getDevices() {
 // Retrieve all obContract models from the server.
 function getObContractData() {
   return new Promise(function(resolve, reject) {
-    return $.get(`https://${server}/api/obContract/list`, "", function(data) {
-      var collection = data.collection;
+    return $.get(`https://${server}/api/obcontract`, "", function(data) {
+      var collection = data.obContracts;
 
       resolve(collection);
     });
