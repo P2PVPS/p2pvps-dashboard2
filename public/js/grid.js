@@ -63,6 +63,7 @@ function generateGrid(deviceModels, obContracts) {
       },
 
       convertToHTML: function(input) {
+        debugger;
         var storeUrl =
           "ob://QmPUf97TtPT1JapY6ey1tc9tiErcUpZPoTQTx5KVD2rQ5r/store";
         var slug = "";

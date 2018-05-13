@@ -26,17 +26,19 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+
         <li v-on:click="showDashboard">
           <router-link to="/"><a href="#">Dashboard</a></router-link>
         </li>
-        <!--
+
         <li v-on:click="showMarketplace">
           <router-link to="/marketplace"><a href="#">Marketplace</a></router-link>
         </li>
-      -->
+
         <li v-on:click="showOwnedDevices">
           <router-link to="/ownedDevices"><a href="#" >Owned Devices</a></router-link>
         </li>
+
         <li v-on:click="showRentedDevices">
           <a href="#">Rented Devices</a>
         </li>
