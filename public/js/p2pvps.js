@@ -1,15 +1,19 @@
 const server = "p2pvps.net";
 
-$(document).ready( function() {
+$(document).ready(function() {
+  getDeviceData();
+});
+
+async function getDeviceData() {
   var devicePublicModels;
   var obContractModels;
   debugger;
 
   try {
     // get the devicePublicModels for each listed device.
-    const data = getDeviceData();
+    const data = await getDevices();
 
-    debugger
+    debugger;
 
     /*
       .then(data => {
@@ -29,20 +33,17 @@ $(document).ready( function() {
         return generateGrid(devicePublicModels, obContractModels);
       })
       */
-
-  } catch(err) {
-      debugger;
-      console.error(`Error in p2pvps.js: `, err);
-    }
-});
+  } catch (err) {
+    debugger;
+    console.error(`Error in p2pvps.js: `, err);
+  }
+}
 
 // Retrieve all devicePublicModels from the server.
-function getDeviceData() {
+function getDevices() {
   return new Promise(function(resolve, reject) {
-    return $.get(`https://${server}/api/devicePublicData/list`, "", function(
-      data
-    ) {
-      var collection = data.collection;
+    return $.get(`https://${server}/api/devices`, "", function(data) {
+      var collection = data.devices;
 
       return resolve(collection);
     }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -87,10 +88,8 @@ function openModal(type, arg) {
     modal.find(".modal-body").append(bodyMsg);
 
     modal.modal("show");
-  }
-
-  // Show the description associated with the selected listing.
-  else {
+  } else {
+    // Show the description associated with the selected listing.
     modal.find(".modal-title").text("Listing Description");
 
     modal.find(".modal-body").empty();
