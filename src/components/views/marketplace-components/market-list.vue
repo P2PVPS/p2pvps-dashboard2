@@ -87,10 +87,13 @@ export default {
         "ob://QmPUf97TtPT1JapY6ey1tc9tiErcUpZPoTQTx5KVD2rQ5r/store";
       var slug = "";
 
+      // OpenBazaar listing
       if (input.toString().indexOf("ob:") > -1) {
         slug = input.slice(3, input.length);
         // input = `<a type="button" class="btn btn-xs btn-primary" href=${storeUrl+slug}>See Listing</a>`;
-        input = `<button type='button' class='btn btn-primary btn-xs' onclick="openModal(1,'${slug}')">See Listing</button>`;
+        input = `<button type='button' class='btn btn-primary btn-xs' v-on:click="showListing('${slug}')">See Listing</button>`;
+
+      // Description
       } else if (input.toString().indexOf("desc:") > -1) {
         const desc = input.slice(5, input.length);
         input = `<button type='button' class='btn btn-primary btn-xs' onclick="openModal(2,'${desc}')">See Info</button>`;
@@ -99,6 +102,11 @@ export default {
       input = `<td>${input}</td>`;
 
       return input;
+    },
+
+    showListing(slug) {
+      debugger;
+      console.log(`slug was: ${slug}`);
     }
   }
 }

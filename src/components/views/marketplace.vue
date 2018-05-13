@@ -79,7 +79,7 @@
     },
 
     mounted: async function() {
-      debugger;
+      //debugger;
       try {
         // get the devicePublicModels for all the devices on the server.
         this.devices = await getDevices();
@@ -120,7 +120,7 @@
 
   // Generate the gridData array after data has been downloaded from server.
   function generateGrid(devices, contracts) {
-    debugger;
+    //debugger;
     var listingData = [];
     for (var i = 0; i < contracts.length; i++) {
       var thisContract = contracts[i];
