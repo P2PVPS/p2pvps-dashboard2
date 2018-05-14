@@ -31,7 +31,8 @@
         <demo-grid
           :data="gridData"
           :columns="gridColumns"
-          :filter-key="searchQuery">
+          :filter-key="searchQuery"
+          :devices="devices">
         </demo-grid>
       </div>
     </div>

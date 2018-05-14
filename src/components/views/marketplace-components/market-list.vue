@@ -15,7 +15,7 @@
       <tr v-for="entry in filteredData">
         <td v-for="key in columns">
           <span v-if="shapeHtml(entry[key])">{{ entry[key] }}</span>
-          <button v-if="!shapeHtml(entry[key])" type='button' class='btn btn-primary btn-xs' v-on:click="showListing(entry[key])">View</button>
+          <button v-if="!shapeHtml(entry[key])" type='button' class='btn btn-primary btn-xs' v-on:click="showListingInfo(entry[key])">View</button>
         </td>
       </tr>
     </tbody>
@@ -30,7 +30,8 @@ export default {
   props: {
     data: Array,
     columns: Array,
-    filterKey: String
+    filterKey: String,
+    devices: Array
   },
   data: function() {
     var sortOrders = {};
@@ -84,33 +85,66 @@ export default {
       this.sortOrders[key] = this.sortOrders[key] * -1;
     },
 
-    convertToHTML: function(input) {
-      var storeUrl =
-        "ob://QmPUf97TtPT1JapY6ey1tc9tiErcUpZPoTQTx5KVD2rQ5r/store";
-      var slug = "";
+    // Pops up a modal with more information about the listing.
+    showListingInfo(inputStr) {
+      console.log(`inputStr was: ${inputStr}`);
+
+      let modalState = this.$store.state.modal
 
       // OpenBazaar listing
-      if (input.toString().indexOf("ob:") > -1) {
-        slug = input.slice(3, input.length);
-        // input = `<a type="button" class="btn btn-xs btn-primary" href=${storeUrl+slug}>See Listing</a>`;
-        input = `<button type='button' class='btn btn-primary btn-xs' v-on:click="showListing('${slug}')">See Listing</button>`;
+      if (inputStr.toString().indexOf("ob:") > -1) {
+        const storeUrl =
+          "ob://QmPUf97TtPT1JapY6ey1tc9tiErcUpZPoTQTx5KVD2rQ5r/store";
+
+        inputStr = inputStr.slice(3, inputStr.length);
+
+        const bodyMsg = `Copy and paste this address into your OpenBazaar
+        application to view or purchase the listing:
+        ${storeUrl}/${inputStr}`;
+
+        // Display a modal to the user
+        modalState = {
+          show: true,
+          title: 'View Listing',
+          body: bodyMsg,
+          button1Text: 'No',
+          button1Func: function () { },
+          button1Show: false,
+          button2Text: 'Close',
+          button2Func: function () { $('.appModal').modal('hide') },
+          button2Show: true
+        }
+
+        this.$store.commit('UPDATE_MODAL', modalState)
 
       // Description
-      } else if (input.toString().indexOf("desc:") > -1) {
-        const desc = input.slice(5, input.length);
-        input = `<button type='button' class='btn btn-primary btn-xs' onclick="openModal(2,'${desc}')">See Info</button>`;
+      } else if (inputStr.toString().indexOf("desc:") > -1) {
+        // Parse the ID of this device.
+        const modelId = inputStr.slice(5, inputStr.length);
+
+        // Retrieve the description for the selected device.
+        const thisDeviceModel = this.devices.find(model => model._id === modelId);
+        const desc = thisDeviceModel.deviceDesc;
+
+        // Display a modal to the user
+        modalState = {
+          show: true,
+          title: 'Device Description',
+          body: desc,
+          button1Text: 'No',
+          button1Func: function () { },
+          button1Show: false,
+          button2Text: 'Close',
+          button2Func: function () { $('.appModal').modal('hide') },
+          button2Show: true
+        }
+
+        this.$store.commit('UPDATE_MODAL', modalState)
+
       }
-
-      input = `<td>${input}</td>`;
-
-      return input;
     },
 
-    showListing(slug) {
-      debugger;
-      console.log(`slug was: ${slug}`);
-    },
-
+    // Determines which HTML element gets shown in the rental grid table.
     shapeHtml(input) {
       // OpenBazaar listing
       if (input.toString().indexOf("ob:") > -1) {
