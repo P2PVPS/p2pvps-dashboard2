@@ -13,6 +13,7 @@
         </div>
       </div>
       <!-- search form -->
+      <!--
       <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
@@ -22,15 +23,17 @@
               </span>
         </div>
       </form>
+      -->
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
+        <!--
         <li class="header">MAIN NAVIGATION</li>
 
         <li v-on:click="showDashboard">
           <router-link to="/"><a href="#">Dashboard</a></router-link>
         </li>
-
+        -->
         <li v-on:click="showMarketplace">
           <router-link to="/marketplace"><a href="#">Marketplace</a></router-link>
         </li>
