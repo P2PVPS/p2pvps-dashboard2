@@ -1,13 +1,17 @@
 <template>
   <section class="content-header">
-    <h1>
-      Dashboard
-      <small>Control panel</small>
-    </h1>
+    <h1 v-if="this.$store.state.menuState.dashboard">Dashboard</h1>
+    <h1 v-if="this.$store.state.menuState.marketplace">Marketplace</h1>
+    <h1 v-if="this.$store.state.menuState.ownedDevices">Owned Devices</h1>
+    <h1 v-if="this.$store.state.menuState.rentedDevices">Rented Devices</h1>
+    <!-- <small>Control panel</small> -->
+
+    <!--
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Dashboard</li>
     </ol>
+    -->
   </section>
 </template>
 

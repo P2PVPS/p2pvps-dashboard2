@@ -9,7 +9,8 @@ export default {
     notifications: [],
     tasks: [],
     GUID: "",
-    token: ""
+    token: "",
+    username: "Your Name"
   },
   menuState: {
     dashboard: false,

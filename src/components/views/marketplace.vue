@@ -11,7 +11,7 @@
           to easily search and filter listings.
         </p>
         <p>
-          <a href="http://p2pvps.org/rent-a-vps/">Here are instructions</a> on
+          <a href="http://p2pvps.org/rent-a-vps/" target="_blank">Here are instructions</a> on
           how to rent one of the VPSs listed below.
         </p>
         <br><br>

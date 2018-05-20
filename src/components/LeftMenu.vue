@@ -9,7 +9,7 @@
           <img src="/img/profile-placeholder-white-grey.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Your Name</p>
+          <p>{{ this.$store.state.userInfo.username }}</p>
         </div>
       </div>
       <!-- search form -->
