@@ -1,6 +1,19 @@
 <template>
   <section class="content">
     <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            This section is used to register new devices on the network. Follow
+            <a href="https://p2pvps.org/install-client/" target="_blank">these instructions</a>
+            to register your device.
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
       <device-listing-item v-for="device in devices" :key="device._id" v-bind:device="device"></device-listing-item>
 
       <hr style="border-top: 2px solid #000;">

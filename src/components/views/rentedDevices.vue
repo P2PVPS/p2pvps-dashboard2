@@ -5,7 +5,8 @@
       <div class="col-sm-12">
         <p>
           This is the rented devices view. This view will hold information about
-          your rented devices. Information like ports, logins, and passwords.
+          your rented devices; information like ports, logins, and passwords.
+          <b>This view has not yet been implemented.</b>
         </p>
       </div>
 
