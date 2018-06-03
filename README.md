@@ -35,7 +35,15 @@ npm test
 ```
 
 ## Installation
-Direction are being developed.
+
+* [Install Node version 8](https://nodejs.org/en/download/package-manager/)
+or higher.
+
+* Install dependencies with `npm install`
+
+* Startup the development server with `npm run serve`
+
+* Build the application for production with `npm run build`
 
 
 ## License
