@@ -149,12 +149,16 @@ export default {
   // This function deletes a devicePublicModel and devicePrivate model from the server.
   // TODO Add the ability to delete obContractModel associated with devicePublicModel.
   deleteDevice(context, deviceId) {
-    // debugger
+
+    const token = context.state.userInfo.token;
 
     // Delete the public data model
     $.ajax({
       url: `/api/devices/${deviceId}`,
       type: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       success: function(data) {
         // Error handling
         if (!data.success) {
