@@ -153,11 +153,9 @@ export default {
 
     // Delete the public data model
     $.ajax({
-      url: `/api/device/${deviceId}`,
-      type: 'DELETE',
+      url: `/api/devices/${deviceId}`,
+      type: "DELETE",
       success: function(data) {
-
-
         // Error handling
         if (!data.success) {
           console.error("Unable to delete device with ID " + deviceId);
@@ -170,9 +168,13 @@ export default {
         }
       },
       fail: function(jqxhr, textStatus, error) {
-        console.error(`API call to DELETE /api/device/${deviceId} unsuccessful. Error: ${jqxhr.responseJSON.detail}`);
+        console.error(
+          `API call to DELETE /api/device/${deviceId} unsuccessful. Error: ${
+            jqxhr.responseJSON.detail
+          }`
+        );
       }
-    })
+    });
   },
 
   // Persist data to the PublicDeviceModel on the server
