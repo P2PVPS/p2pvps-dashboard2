@@ -60,6 +60,7 @@
       </div>
 
       <!-- This will be removed. Temporarily here to show device login data. -->
+      <!--
       <div class="row well">
         <div class="col-sm-12">
           <p class="pull-right"><i>This information will be removed</i></p>
@@ -71,6 +72,7 @@
           </ul>
         </div>
       </div>
+    -->
 
     </div>
   </div>
