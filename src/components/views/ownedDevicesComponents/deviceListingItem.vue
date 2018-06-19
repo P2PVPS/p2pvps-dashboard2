@@ -16,7 +16,7 @@
           <div class="nice-border">
             <h4><strong>Status:</strong> <span v-bind:class="statusText" class="deviceConnectionStatus">{{ clientStatus }}</span></h4>
             <p><strong>Last Check-In:</strong> {{ formatTimeStamp }}</p>
-            <button class="btn btn-sm center-block" v-bind:class="marketButtonState" v-bind:disabled="marketBtnDisabled" v-on:click="marketBtnCtl()">{{ marketBtnText }}</button>
+            <!-- <button class="btn btn-sm center-block" v-bind:class="marketButtonState" v-bind:disabled="marketBtnDisabled" v-on:click="marketBtnCtl()">{{ marketBtnText }}</button> -->
           </div>
           <div class="nice-border">
             <h4><u>Device Specs:</u></h4>
