@@ -1,4 +1,3 @@
-
 /*
   TODO:
   -Add persistDevicePublicModel() to persist changes to devicePublicModel to the server.
@@ -7,70 +6,69 @@
 */
 
 export default {
-
   // Present a modal to user to create an account.
-  createAccount (context) {
+  createAccount(context) {
     // Display a modal to the user
     var modal = {
       show: true,
-      title: 'Create Account',
-      body: 'Use the form below to create a new account.',
-      button1Text: '',
+      title: "Create Account",
+      body: "Use the form below to create a new account.",
+      button1Text: "",
       button1Func: null,
       button1Show: false,
-      button2Text: '',
+      button2Text: "",
       button2Func: null,
       button2Show: false,
       showLoginForm: true
-    }
-    context.commit('UPDATE_MODAL', modal)
+    };
+    context.commit("UPDATE_MODAL", modal);
   },
 
   // Get the user ID (GUID). Will present a modal to the user if they are not logged in.
-  getId (context) {
-    context.commit('SET_USER_ID', 'Not Logged In')
+  getId(context) {
+    context.commit("SET_USER_ID", "Not Logged In");
 
     const globalThis = this;
 
     // Display a modal to the user
     var modal = {
       show: true,
-      title: 'Please log in',
-      body: 'You are not logged in. Please log in below:',
+      title: "Please log in",
+      body: "You are not logged in. Please log in below:",
       //button1Text: 'Close',
       //button1Func: function () { $('.appModal').modal('hide') },
-      button1Text: 'Create Account',
+      button1Text: "Create Account",
       button1Func: function() {
         globalThis.dispatch("createAccount");
       },
       button1Show: true,
-      button2Text: '',
+      button2Text: "",
       button2Func: null,
       button2Show: false,
       showLoginForm: true
-    }
-    context.commit('UPDATE_MODAL', modal)
+    };
+    context.commit("UPDATE_MODAL", modal);
   },
 
   // getDeviceData retrieves device data from the server and populates the Vuex store
   // with the data.
-  async getDeviceData (context) {
-    let ownedDevices = []
+  async getDeviceData(context) {
+    let ownedDevices = [];
 
     // Get the devices owned by the current user.
-    ownedDevices = await getDevicesById(context)
+    ownedDevices = await getDevicesById(context);
 
     //for (var i = 0; i < ownedDevices.length; i++) {
     //  if (ownedDevices[i].obContract) {
-        // Get obContract data for this device.
+    // Get obContract data for this device.
     //  }
     //}
 
-    context.commit('SET_OWNED_DEVICES', ownedDevices)
+    context.commit("SET_OWNED_DEVICES", ownedDevices);
 
     //debugger
 
-/*
+    /*
     // Get *public* device data associated with this user.
     $.get(`/api/device/listbyid/${abc}`, '', function (publicData) {
       var devicePublicData = publicData.collection
@@ -150,40 +148,42 @@ export default {
 
   // This function deletes a devicePublicModel and devicePrivate model from the server.
   // TODO Add the ability to delete obContractModel associated with devicePublicModel.
-  deleteDevice (context, deviceId) {
+  deleteDevice(context, deviceId) {
     // debugger
 
     // Delete the public data model
-    $.get('/api/devicePublicData/' + deviceId + '/remove', '', function (data) {
+    $.delete("/api/device/" + deviceId, "", function(data) {
       // debugger
 
       // Error handling
       if (!data.success) {
-        console.error('Unable to delete device with ID ' + deviceId)
-        return
+        console.error("Unable to delete device with ID " + deviceId);
+        return;
       }
-
-      // TODO delete the devicePrivateModel.
 
       // Refresh the Store.
-      if (context.state.userInfo.GUID !== 'Not Logged In') {
-        context.dispatch('getDeviceData')
+      if (context.state.userInfo.GUID !== "Not Logged In") {
+        context.dispatch("getDeviceData");
       }
-    })
-    .fail(function (jqxhr, textStatus, error) {
-      console.error('API call to /devicePublicData/' + deviceId + '/remove unsuccessful. Error: ' + jqxhr.responseJSON.detail)
-    })
+    }).fail(function(jqxhr, textStatus, error) {
+      console.error(
+        "API call to DELETE /api/device/" +
+          deviceId +
+          " unsuccessful. Error: " +
+          jqxhr.responseJSON.detail
+      );
+    });
   },
 
   // Persist data to the PublicDeviceModel on the server
-  persistPublicDeviceModel (context, devicePublicModel) {
+  persistPublicDeviceModel(context, devicePublicModel) {
     // debugger
 
-    var obContract = ''
-    if (devicePublicModel.obContract) obContract = devicePublicModel.obContract
+    var obContract = "";
+    if (devicePublicModel.obContract) obContract = devicePublicModel.obContract;
 
-    var renterUser = ''
-    if (devicePublicModel.renterUser) obContract = devicePublicModel.renterUser
+    var renterUser = "";
+    if (devicePublicModel.renterUser) obContract = devicePublicModel.renterUser;
 
     // Create a publicDeviceModel from data in the store.
     var tmpModel = {
@@ -204,47 +204,56 @@ export default {
       // processor: testModel.processor,
       // internetSpeed: testModel.internetSpeed
       // checkinTimeStamp: testModel.checkinTimeStamp
-    }
+    };
 
     // JSON.stringify(tmpModel, null, 2)
 
     // Upload the data to the server.
-    $.post('/api/devicePublicData/' + devicePublicModel._id + '/update', tmpModel, function (publicData) {
+    $.post(
+      "/api/devicePublicData/" + devicePublicModel._id + "/update",
+      tmpModel,
+      function(publicData) {
+        // debugger
+        console.log(`devicePublidModel ${publicData.collection._id} updated.`);
+      }
+    ).fail(function(jqxhr, textStatus, error) {
       // debugger
-      console.log(`devicePublidModel ${publicData.collection._id} updated.`)
-    })
-    .fail(function (jqxhr, textStatus, error) {
-      // debugger
-      console.error('API call to /devicePublicData/' + devicePublicModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail, error)
-      throw error
-    })
+      console.error(
+        "API call to /devicePublicData/" +
+          devicePublicModel._id +
+          "/update unsuccessful. Error: " +
+          jqxhr.responseJSON.detail,
+        error
+      );
+      throw error;
+    });
   }
-}
+};
 
 // Call the /device/listbyid/:id API.
 async function getDevicesById(context) {
   return new Promise(function(resolve, reject) {
-    const token = context.state.userInfo.token
+    const token = context.state.userInfo.token;
 
     $.ajax({
-      type: 'GET',
+      type: "GET",
       url: `/api/devices/listbyid`,
       headers: {
         Authorization: `Bearer ${token}`
       },
       success: handleSuccess,
-      dataType: 'json',
+      dataType: "json",
       error: handleError
-    })
+    });
 
     function handleSuccess(data, textStatus, jqXHR) {
       //debugger
-      resolve(data.devices)
+      resolve(data.devices);
     }
 
     function handleError(err) {
-      debugger
-      reject(err)
+      debugger;
+      reject(err);
     }
-  })
+  });
 }
