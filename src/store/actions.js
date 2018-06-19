@@ -152,27 +152,27 @@ export default {
     // debugger
 
     // Delete the public data model
-    $.delete("/api/device/" + deviceId, "", function(data) {
-      // debugger
+    $.ajax({
+      url: `/api/device/${deviceId}`,
+      type: 'DELETE',
+      success: function(data) {
 
-      // Error handling
-      if (!data.success) {
-        console.error("Unable to delete device with ID " + deviceId);
-        return;
-      }
 
-      // Refresh the Store.
-      if (context.state.userInfo.GUID !== "Not Logged In") {
-        context.dispatch("getDeviceData");
+        // Error handling
+        if (!data.success) {
+          console.error("Unable to delete device with ID " + deviceId);
+          return;
+        }
+
+        // Refresh the Store.
+        if (context.state.userInfo.GUID !== "Not Logged In") {
+          context.dispatch("getDeviceData");
+        }
+      },
+      fail: function(jqxhr, textStatus, error) {
+        console.error(`API call to DELETE /api/device/${deviceId} unsuccessful. Error: ${jqxhr.responseJSON.detail}`);
       }
-    }).fail(function(jqxhr, textStatus, error) {
-      console.error(
-        "API call to DELETE /api/device/" +
-          deviceId +
-          " unsuccessful. Error: " +
-          jqxhr.responseJSON.detail
-      );
-    });
+    })
   },
 
   // Persist data to the PublicDeviceModel on the server
