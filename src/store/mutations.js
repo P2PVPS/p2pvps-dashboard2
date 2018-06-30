@@ -29,6 +29,7 @@ export default {
       state.userInfo.GUID = userData.user._id.toString();
       state.userInfo.token = userData.token;
       state.userInfo.username = userData.user.username;
+      state.userInfo.dashIds = userData.user.dashIds;
     }
   },
 
