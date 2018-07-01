@@ -45,8 +45,8 @@ export default {
 
   methods: {
     submitForm: function() {
-      console.log('Enter key was pressed')
-      this.login()
+      console.log("Enter key was pressed");
+      this.login();
     },
 
     // Execute the function assigned to this button.
@@ -79,7 +79,7 @@ export default {
       };
 
       $.post("/api/users/", obj, data => {
-        debugger;
+        //debugger;
         // Error handling/validation
         if (!data.token) {
           console.log("Error calling /users");
@@ -202,28 +202,28 @@ export default {
         };
         this.$store.commit("UPDATE_MODAL", modal);
       })
-      // If sending the data to the server fails:
-      .fail((jqxhr, textStatus, error) => {
-        //debugger
-        const globalThis = this;
-        // Display a modal to the user
-        var modal = {
-          show: true,
-          title: "Login failed, please try again.",
-          body: "--> LOGIN FAILED <-- Please try again",
-          button1Text: "Create Account",
-          //button1Func: function () { this.$store.dispatch('createAccount') },
-          button1Func: function() {
-            globalThis.$store.dispatch("createAccount");
-          },
-          button1Show: true,
-          button2Text: "",
-          button2Func: null,
-          button2Show: false,
-          showLoginForm: true,
-        };
-        this.$store.commit("UPDATE_MODAL", modal);
-      });
+        // If sending the data to the server fails:
+        .fail((jqxhr, textStatus, error) => {
+          //debugger
+          const globalThis = this;
+          // Display a modal to the user
+          var modal = {
+            show: true,
+            title: "Login failed, please try again.",
+            body: "--> LOGIN FAILED <-- Please try again",
+            button1Text: "Create Account",
+            //button1Func: function () { this.$store.dispatch('createAccount') },
+            button1Func: function() {
+              globalThis.$store.dispatch("createAccount");
+            },
+            button1Show: true,
+            button2Text: "",
+            button2Func: null,
+            button2Show: false,
+            showLoginForm: true,
+          };
+          this.$store.commit("UPDATE_MODAL", modal);
+        });
     },
   },
 };
@@ -231,7 +231,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  /*
+/*
   h1, h2 {
     font-weight: normal;
   }
