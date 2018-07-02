@@ -19,7 +19,7 @@ export default {
       button2Text: "",
       button2Func: null,
       button2Show: false,
-      showLoginForm: true
+      showLoginForm: true,
     };
     context.commit("UPDATE_MODAL", modal);
   },
@@ -45,7 +45,7 @@ export default {
       button2Text: "",
       button2Func: null,
       button2Show: false,
-      showLoginForm: true
+      showLoginForm: true,
     };
     context.commit("UPDATE_MODAL", modal);
   },
@@ -149,7 +149,6 @@ export default {
   // This function deletes a devicePublicModel and devicePrivate model from the server.
   // TODO Add the ability to delete obContractModel associated with devicePublicModel.
   deleteDevice(context, deviceId) {
-
     const token = context.state.userInfo.token;
 
     // Delete the public data model
@@ -157,7 +156,7 @@ export default {
       url: `/api/devices/${deviceId}`,
       type: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       success: function(data) {
         // Error handling
@@ -177,7 +176,7 @@ export default {
             jqxhr.responseJSON.detail
           }`
         );
-      }
+      },
     });
   },
 
@@ -200,7 +199,7 @@ export default {
       // rentStartDate: '',
       // rentStopDate: '',
       deviceName: devicePublicModel.deviceName,
-      deviceDesc: devicePublicModel.deviceDesc
+      deviceDesc: devicePublicModel.deviceDesc,
       // rentHourlyRate: '',
       // subdomain: '',
       // httpPort: '',
@@ -215,14 +214,12 @@ export default {
     // JSON.stringify(tmpModel, null, 2)
 
     // Upload the data to the server.
-    $.post(
-      "/api/devicePublicData/" + devicePublicModel._id + "/update",
-      tmpModel,
-      function(publicData) {
-        // debugger
-        console.log(`devicePublidModel ${publicData.collection._id} updated.`);
-      }
-    ).fail(function(jqxhr, textStatus, error) {
+    $.post("/api/devicePublicData/" + devicePublicModel._id + "/update", tmpModel, function(
+      publicData
+    ) {
+      // debugger
+      console.log(`devicePublidModel ${publicData.collection._id} updated.`);
+    }).fail(function(jqxhr, textStatus, error) {
       // debugger
       console.error(
         "API call to /devicePublicData/" +
@@ -233,7 +230,45 @@ export default {
       );
       throw error;
     });
-  }
+  },
+
+  /*
+  // Persist data to the PublicDeviceModel on the server
+  persistUserData(context) {
+    debugger;
+
+    // Create a publicDeviceModel from data in the store.
+    var tmpModel = {
+      username: context.state.userInfo.username,
+      dashIds: context.state.userInfo.dashIds,
+    };
+
+    //return new Promise(function(resolve, reject) {
+    $.ajax({
+      type: "PUT",
+      url: `/api/users/${context.state.userInfo.GUID}`,
+      headers: {
+        Authorization: `Bearer ${context.state.userInfo.token}`,
+      },
+      data: tmpModel,
+      success: handleSuccess,
+      dataType: "json",
+      error: handleError,
+    });
+
+    function handleSuccess(data, textStatus, jqXHR) {
+      debugger;
+      console.log(`User model updated on server.`);
+      //resolve(true);
+    }
+
+    function handleError(err) {
+      debugger;
+      reject(err);
+    }
+    //});
+  },
+*/
 };
 
 // Call the /device/listbyid/:id API.
@@ -245,11 +280,11 @@ async function getDevicesById(context) {
       type: "GET",
       url: `/api/devices/listbyid`,
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       success: handleSuccess,
       dataType: "json",
-      error: handleError
+      error: handleError,
     });
 
     function handleSuccess(data, textStatus, jqXHR) {

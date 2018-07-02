@@ -52,21 +52,120 @@
 </template>
 
 <script>
-  export default {
-    name: 'rentedDevices',
-    data () {
-      return {
-        msg: 'This is the rented devices view.',
-        showForm: false,
-        dashId: ''
+export default {
+  name: "rentedDevices",
+  data() {
+    return {
+      msg: "This is the rented devices view.",
+      showForm: false,
+      dashId: "",
+    };
+  },
+  methods: {
+    addRental: async function() {
+      try {
+        // No empty input
+        if (this.dashId === "") {
+          console.log("Launch modal.");
+          return;
+        }
+
+        // Validate the input ID.
+        if (!this.dashId.match(/^[0-9a-zA-Z]{10}$/)) {
+          console.log("Invalid Dash ID");
+          return;
+        }
+
+        const thisStore = this.$store;
+        const userInfo = thisStore.state.userInfo;
+        const token = userInfo.token;
+
+        // Get private model data from dash ID.
+        const privateModel = await getPrivateModel(token, this.dashId);
+        debugger;
+        // Save dash ID to user profile.
+        userInfo.dashIds.push(this.dashId);
+        await saveUserData(thisStore);
+        console.log(`privateModel: ${JSON.stringify(privateModel, null, 2)}`);
+
+        // Hide the form
+        this.showForm = false;
+        this.deviceId = "";
+      } catch (err) {
+        throw err;
       }
+    },
+  },
+};
+
+// Returns a promise.
+// Retrieves a device private model given a Dashboard ID.
+function getPrivateModel(token, dashId) {
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      type: "GET",
+      url: `/api/deviceprivatedata/dashid/${dashId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      success: handleSuccess,
+      dataType: "json",
+      error: handleError,
+    });
+
+    function handleSuccess(data, textStatus, jqXHR) {
+      //debugger
+      resolve(data.devicePrivateData);
     }
-  }
+
+    function handleError(err) {
+      debugger;
+      reject(err);
+    }
+  });
+}
+
+function saveUserData(thisStore) {
+  return new Promise(function(resolve, reject) {
+    debugger;
+    // Create a publicDeviceModel from data in the store.
+    var tmpModel = {
+      user: {
+        username: thisStore.state.userInfo.username,
+        dashIds: thisStore.state.userInfo.dashIds,
+      },
+    };
+
+    //return new Promise(function(resolve, reject) {
+    $.ajax({
+      type: "PUT",
+      url: `/api/users/${thisStore.state.userInfo.GUID}`,
+      headers: {
+        Authorization: `Bearer ${thisStore.state.userInfo.token}`,
+      },
+      data: tmpModel,
+      success: handleSuccess,
+      dataType: "json",
+      error: handleError,
+    });
+
+    function handleSuccess(data, textStatus, jqXHR) {
+      debugger;
+      console.log(`User model updated on server.`);
+      resolve(true);
+    }
+
+    function handleError(err) {
+      debugger;
+      reject(err);
+    }
+  });
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  /*
+/*
   h1, h2 {
     font-weight: normal;
   }
