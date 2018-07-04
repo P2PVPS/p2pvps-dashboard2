@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import rentedDeviceItem from './rentedDevicesComponents/rentedDeviceItem.vue'
+import rentedDeviceItem from "./rentedDevicesComponents/rentedDeviceItem.vue";
 
 export default {
   name: "rentedDevices",
@@ -62,16 +62,16 @@ export default {
       msg: "This is the rented devices view.",
       showForm: false,
       dashId: "",
-      privateDataModels: []
+      privateDataModels: [],
     };
   },
   components: {
-    rentedDeviceItem
+    rentedDeviceItem,
   },
   computed: {
-    devices () {
-      return this.privateDataModels
-    }
+    devices() {
+      return this.privateDataModels;
+    },
   },
   methods: {
     // User clicked the button to manually add a rental via DashID.
@@ -112,10 +112,12 @@ export default {
 
   // Retrieve rental data from the server for the current user.
   mounted: async function() {
+    debugger;
     // Get the list of saved Dash IDs from the user profile.
     const dashIds = this.$store.state.userInfo.dashIds;
 
     const token = this.$store.state.userInfo.token;
+    const globalThis = this;
 
     // Download private model data for each DashID in the list.
     for (var i = 0; i < dashIds.length; i++) {
@@ -123,9 +125,11 @@ export default {
 
       try {
         const thisPrivateModel = await getPrivateModel(token, thisDashId);
-        privateDataModels.push(thisPrivateModel);
         debugger;
+        globalThis.privateDataModels.push(thisPrivateModel);
       } catch (err) {
+        console.log(`err: ${JSON.stringify(err, null, 2)}`);
+        debugger;
         console.log(`DashID ${thisDashId} not found, remove from user profile.`);
 
         // Remove the selected DashID from the user info.
@@ -144,6 +148,7 @@ export default {
 // Retrieves a device private model given a Dashboard ID.
 function getPrivateModel(token, dashId) {
   return new Promise(function(resolve, reject) {
+    debugger;
     $.ajax({
       type: "GET",
       url: `/api/deviceprivatedata/dashid/${dashId}`,
@@ -156,13 +161,13 @@ function getPrivateModel(token, dashId) {
     });
 
     function handleSuccess(data, textStatus, jqXHR) {
-      //debugger
+      debugger;
       return resolve(data.devicePrivateData);
     }
 
     // If the dash ID can't be found.
     function handleError(err) {
-      //debugger;
+      debugger;
       return reject(new Error(err.responseText));
     }
   });
