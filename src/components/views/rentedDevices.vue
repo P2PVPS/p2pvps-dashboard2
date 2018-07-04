@@ -96,6 +96,23 @@ export default {
       }
     },
   },
+
+  // Retrieve rental data from the server for the current user.
+  mounted: async function() {
+    const dashIds = this.$store.state.userInfo.dashIds;
+    const token = this.$store.state.userInfo.token;
+
+    for (var i = 0; i < dashIds.length; i++) {
+      const thisDashId = dashIds[i];
+
+      try {
+        const thisPrivateModel = await getPrivateModel(token, thisDashId);
+        debugger;
+      } catch (err) {
+        debugger;
+      }
+    }
+  },
 };
 
 // Returns a promise.
