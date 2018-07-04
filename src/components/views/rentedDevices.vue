@@ -17,6 +17,7 @@
 
 
     <div class="container">
+      <rented-device-item v-for="device in devices" :key="device._id" v-bind:device="device"></rented-device-item>
 
       <hr style="border-top: 2px solid #000;">
 
@@ -52,6 +53,8 @@
 </template>
 
 <script>
+import rentedDeviceItem from './rentedDevicesComponents/rentedDeviceItem.vue'
+
 export default {
   name: "rentedDevices",
   data() {
@@ -59,7 +62,16 @@ export default {
       msg: "This is the rented devices view.",
       showForm: false,
       dashId: "",
+      privateDataModels: []
     };
+  },
+  components: {
+    rentedDeviceItem
+  },
+  computed: {
+    devices () {
+      return this.privateDataModels
+    }
   },
   methods: {
     // User clicked the button to manually add a rental via DashID.
@@ -111,6 +123,7 @@ export default {
 
       try {
         const thisPrivateModel = await getPrivateModel(token, thisDashId);
+        privateDataModels.push(thisPrivateModel);
         debugger;
       } catch (err) {
         console.log(`DashID ${thisDashId} not found, remove from user profile.`);
