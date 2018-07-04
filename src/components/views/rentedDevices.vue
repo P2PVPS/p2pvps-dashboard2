@@ -62,6 +62,7 @@ export default {
     };
   },
   methods: {
+    // User clicked the button to manually add a rental via DashID.
     addRental: async function() {
       try {
         // No empty input
@@ -85,7 +86,7 @@ export default {
         debugger;
         // Save dash ID to user profile.
         userInfo.dashIds.push(this.dashId);
-        await saveUserData(thisStore);
+        await saveUserDashIds(thisStore, userInfo.dashIds);
         console.log(`privateModel: ${JSON.stringify(privateModel, null, 2)}`);
 
         // Hide the form
@@ -99,9 +100,12 @@ export default {
 
   // Retrieve rental data from the server for the current user.
   mounted: async function() {
+    // Get the list of saved Dash IDs from the user profile.
     const dashIds = this.$store.state.userInfo.dashIds;
+
     const token = this.$store.state.userInfo.token;
 
+    // Download private model data for each DashID in the list.
     for (var i = 0; i < dashIds.length; i++) {
       const thisDashId = dashIds[i];
 
@@ -109,7 +113,15 @@ export default {
         const thisPrivateModel = await getPrivateModel(token, thisDashId);
         debugger;
       } catch (err) {
-        debugger;
+        console.log(`DashID ${thisDashId} not found, remove from user profile.`);
+
+        // Remove the selected DashID from the user info.
+        const newDashIds = dashIds.filter(function(item) {
+          return item !== thisDashId;
+        });
+
+        // Update the user model on the server.
+        saveUserDashIds(this.$store, newDashIds);
       }
     }
   },
@@ -132,24 +144,25 @@ function getPrivateModel(token, dashId) {
 
     function handleSuccess(data, textStatus, jqXHR) {
       //debugger
-      resolve(data.devicePrivateData);
+      return resolve(data.devicePrivateData);
     }
 
+    // If the dash ID can't be found.
     function handleError(err) {
-      debugger;
-      reject(err);
+      //debugger;
+      return reject(new Error(err.responseText));
     }
   });
 }
 
-function saveUserData(thisStore) {
+// Update the dashIds field of the user model on the server.
+function saveUserDashIds(thisStore, dashIds) {
   return new Promise(function(resolve, reject) {
     debugger;
     // Create a publicDeviceModel from data in the store.
     var tmpModel = {
       user: {
-        username: thisStore.state.userInfo.username,
-        dashIds: thisStore.state.userInfo.dashIds,
+        dashIds: dashIds,
       },
     };
 
@@ -167,14 +180,14 @@ function saveUserData(thisStore) {
     });
 
     function handleSuccess(data, textStatus, jqXHR) {
-      debugger;
+      //debugger;
       console.log(`User model updated on server.`);
       resolve(true);
     }
 
     function handleError(err) {
       debugger;
-      reject(err);
+      return reject(new Error(err.responseText));
     }
   });
 }
