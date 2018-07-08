@@ -56,6 +56,7 @@
 
 <script>
 import rentedDeviceItem from "./rentedDevicesComponents/rentedDeviceItem.vue";
+let globalThis;
 
 export default {
   name: "rentedDevices",
@@ -97,7 +98,7 @@ export default {
 
         // Get private model data from dash ID.
         const privateModel = await getPrivateModel(token, this.dashId);
-        debugger;
+        //debugger;
         // Save dash ID to user profile.
         userInfo.dashIds.push(this.dashId);
         await saveUserDashIds(thisStore, userInfo.dashIds);
@@ -114,30 +115,34 @@ export default {
 
   // Retrieve rental data from the server for the current user.
   mounted: async function() {
-    debugger;
+    //debugger;
     // Get the list of saved Dash IDs from the user profile.
     const dashIds = this.$store.state.userInfo.dashIds;
 
     const token = this.$store.state.userInfo.token;
-    const globalThis = this;
+    globalThis = this;
 
     // Download private model data for each DashID in the list.
     for (var i = 0; i < dashIds.length; i++) {
       const thisDashId = dashIds[i];
 
       try {
+        if(thisDashId === "") continue;
+
         const thisPrivateModel = await getPrivateModel(token, thisDashId);
-        debugger;
+        //debugger;
         globalThis.privateDataModels.push(thisPrivateModel);
       } catch (err) {
         console.log(`err: ${JSON.stringify(err, null, 2)}`);
-        debugger;
+        //debugger;
         console.log(`DashID ${thisDashId} not found, remove from user profile.`);
 
         // Remove the selected DashID from the user info.
-        const newDashIds = dashIds.filter(function(item) {
+        let newDashIds = dashIds.filter(function(item) {
           return item !== thisDashId;
         });
+
+        if(newDashIds.length === 0) newDashIds = [""];
 
         // Update the user model on the server.
         saveUserDashIds(this.$store, newDashIds);
@@ -150,7 +155,7 @@ export default {
 // Retrieves a device private model given a Dashboard ID.
 function getPrivateModel(token, dashId) {
   return new Promise(function(resolve, reject) {
-    debugger;
+    //debugger;
     $.ajax({
       type: "GET",
       url: `/api/deviceprivatedata/dashid/${dashId}`,
@@ -163,7 +168,7 @@ function getPrivateModel(token, dashId) {
     });
 
     function handleSuccess(data, textStatus, jqXHR) {
-      debugger;
+      //debugger;
       return resolve(data.devicePrivateData);
     }
 
@@ -177,8 +182,12 @@ function getPrivateModel(token, dashId) {
 
 // Update the dashIds field of the user model on the server.
 function saveUserDashIds(thisStore, dashIds) {
+  console.log(`saveUserDashIds() dashIds: ${JSON.stringify(dashIds,null,2)}`);
+
+  debugger;
+
   return new Promise(function(resolve, reject) {
-    debugger;
+    //debugger;
     // Create a publicDeviceModel from data in the store.
     var tmpModel = {
       user: {
@@ -200,8 +209,15 @@ function saveUserDashIds(thisStore, dashIds) {
     });
 
     function handleSuccess(data, textStatus, jqXHR) {
-      //debugger;
+      debugger;
       console.log(`User model updated on server.`);
+      console.log(`returned data: ${JSON.stringify(data,null,2)}`)
+
+      // Update the userInfo Store
+      data.token = globalThis.$store.state.userInfo.token
+      globalThis.$store.commit('SET_USER_ID', data);
+      debugger;
+
       resolve(true);
     }
 
