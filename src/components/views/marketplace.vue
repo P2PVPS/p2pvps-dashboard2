@@ -150,7 +150,7 @@
   function formatPrice(price) {
     var thisPrice = Number(price);
     thisPrice = (thisPrice / 100).toFixed(2);
-    thisPrice = "$" + thisPrice + " per Hour";
+    thisPrice = "$" + thisPrice + " per Day";
 
     return thisPrice;
   }
