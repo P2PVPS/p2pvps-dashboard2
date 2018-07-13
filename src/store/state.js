@@ -10,7 +10,8 @@ export default {
     tasks: [],
     GUID: "",
     token: "",
-    username: "Your Name"
+    username: "Your Name",
+    bchAddress: "qrszetpexk29n7n2t5zqlhz5r4dt05jqwy07rmzvw9"
   },
   menuState: {
     dashboard: false,
