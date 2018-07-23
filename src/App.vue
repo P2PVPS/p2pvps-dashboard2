@@ -25,7 +25,7 @@
                 <img src="/img/profile-placeholder-white-grey.jpg" class="user-image" alt="User Image">
                 <span class="hidden-xs">{{ this.$store.state.userInfo.username }}</span>
               </a>
-              <profile-view></profile-view>
+              <profile-view :view-state="profileState"></profile-view>
 
             </li>
 
@@ -66,7 +66,8 @@
     data: function () {
       return {
         modalShow: false,
-        deviceUpdateTimer: null
+        deviceUpdateTimer: null,
+        profileState: false
       }
     },
 
@@ -75,11 +76,12 @@
       openDropDown: function() {
         const dropDown = $('.dropdown-toggle');
         if(dropDown.parent().hasClass('open')) {
+          this.profileState = false
           dropDown.parent().removeClass('open')
         } else {
+          this.profileState = true
           dropDown.parent().addClass('open')
         }
-
       }
     },
 

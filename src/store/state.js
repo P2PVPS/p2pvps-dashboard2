@@ -11,7 +11,8 @@ export default {
     GUID: "",
     token: "",
     username: "Your Name",
-    bchAddress: "qrszetpexk29n7n2t5zqlhz5r4dt05jqwy07rmzvw9"
+    bchAddr: "",
+    ethAddr: ""
   },
   menuState: {
     dashboard: false,

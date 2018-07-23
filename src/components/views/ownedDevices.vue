@@ -101,42 +101,6 @@
           console.error(`Error in ownedDevices.vue/addDevice(): `, err)
         }
 
-        /*
-        $.post('/api/devices', deviceModel, function (data) {
-          // debugger
-          var newPublicModel = data.collection
-
-          // Register a new private device model on the server.
-          var privateModel = {
-            ownerUser: ownerId,
-            publicData: newPublicModel._id
-          }
-          $.post('/api/devicePrivateData/create', privateModel, function (data) {
-            // debugger
-            var newPrivateModel = data.collection
-
-            // Update the public model with the privateModel ID
-            newPublicModel.privateData = newPrivateModel._id
-            $.post('/api/devicePublicData/' + newPublicModel._id + '/update', newPublicModel, function (data) {
-              // debugger
-
-              // Refresh the Store.
-              if (thisStore.state.userInfo.GUID !== 'Not Logged In') {
-                thisStore.dispatch('getDeviceData')
-              }
-            })
-            .fail(function (jqxhr, textStatus, error) {
-              console.error('API call to /api/devicePublicData/' + newPublicModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail)
-            })
-          })
-          .fail(function (jqxhr, textStatus, error) {
-            console.error('API call to /api/devicePrivateData/create unsuccessful. Error: ' + jqxhr.responseJSON.detail)
-          })
-        })
-        .fail(function (jqxhr, textStatus, error) {
-          console.error('API call to /api/devicePublicData/create unsuccessful. Error: ' + jqxhr.responseJSON.detail)
-        })
-        */
         // Hide the form
         this.showForm = false
         this.deviceName = ''

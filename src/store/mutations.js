@@ -30,6 +30,8 @@ export default {
       state.userInfo.token = userData.token;
       state.userInfo.username = userData.user.username;
       state.userInfo.dashIds = userData.user.dashIds;
+      state.userInfo.bchAddr = userData.user.bchAddr;
+      state.userInfo.ethAddr = userData.user.ethAddr;
     }
   },
 
