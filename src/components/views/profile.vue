@@ -14,9 +14,9 @@
     <li class="user-body">
       <div class="row">
         <div class="col-xs-12 text-center">
-          <p>BCH Address</p>
+          <p v-on:click="editFlag=!editFlag">BCH Address</p>
           <div >
-            <p v-if="editFlag" v-on:click="editFlag=!editFlag"><small>{{ bchAddress }}</small></p>
+            <p v-if="editFlag"><small>{{ bchAddress }}</small></p>
 
             <form v-if="!editFlag" class="navbar-form">
               <div class="form-group">
