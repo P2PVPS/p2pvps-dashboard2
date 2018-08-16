@@ -10,7 +10,9 @@ export default {
     tasks: [],
     GUID: "",
     token: "",
-    username: "Your Name"
+    username: "Your Name",
+    bchAddr: "",
+    ethAddr: ""
   },
   menuState: {
     dashboard: false,

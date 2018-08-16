@@ -57,92 +57,7 @@ export default {
     // Get the devices owned by the current user.
     ownedDevices = await getDevicesById(context);
 
-    //for (var i = 0; i < ownedDevices.length; i++) {
-    //  if (ownedDevices[i].obContract) {
-    // Get obContract data for this device.
-    //  }
-    //}
-
     context.commit("SET_OWNED_DEVICES", ownedDevices);
-
-    //debugger
-
-    /*
-    // Get *public* device data associated with this user.
-    $.get(`/api/device/listbyid/${abc}`, '', function (publicData) {
-      var devicePublicData = publicData.collection
-
-      // Get the matching *private* device data.
-      $.get('/api/devicePrivateData/listById', '', function (privateData) {
-        var devicePrivateData = privateData.collection
-        var rentedDevices = []
-
-        // Loop through all the private models and match them up with public models.
-        for (var i = 0; i < devicePrivateData.length; i++) {
-          var publicId = devicePrivateData[i].publicData // The GUID pointing back to the public record.
-
-          // Loop through the public models until the match is found.
-          for (var j = 0; j < devicePublicData.length; j++) {
-            if (publicId === devicePublicData[j]._id) { // Public and private records match.
-              // Merge the private data properties into the public data object
-              devicePublicData[j].serverSSHPort = devicePrivateData[i].serverSSHPort
-              devicePublicData[j].deviceUserName = devicePrivateData[i].deviceUserName
-              devicePublicData[j].devicePassword = devicePrivateData[i].devicePassword
-
-              // Get the 'money owed' for this device.
-              if (devicePrivateData[i].moneyOwed) {
-                devicePublicData[j].moneyOwed = devicePrivateData[i].moneyOwed;
-              } else {
-                devicePublicData[j].moneyOwed = 0.0;
-              }
-
-              var userId = context.state.userInfo.GUID // The user ID for the current user.
-
-              // Owner
-              if (devicePublicData[j].ownerUser === userId) {
-                // debugger
-                // Add the combined device object to the store object.
-                ownedDevices.push(devicePublicData[j])
-              }
-
-              // Renter
-              if (devicePublicData[j].renterUser === userId) {
-                // Add the combined device object to the store object.
-                rentedDevices.push(devicePublicData[j])
-              }
-
-              // Break out of the loop.
-              break
-            }
-          }
-        }
-
-        // Add data to the store.
-        context.commit('SET_OWNED_DEVICES', ownedDevices)
-        context.commit('SET_RENTED_DEVICES', rentedDevices)
-      })
-      .fail(function (jqxhr, textStatus, error) {
-        console.error('API call to /api/devicePrivateData/listById unsuccessful. Error: ' + jqxhr.responseJSON.detail)
-      })
-    })
-    .fail(function (jqxhr, textStatus, error) {
-      console.error('API call to /api/devicePublicData/listById unsuccessful. Error: ' + jqxhr.responseJSON.detail)
-    })
-
-    // TODO download obContractModel data if it's filled out.
-    .then(() => {
-      // debugger
-
-      for (var i = 0; i < ownedDevices.length; i++) {
-        if (ownedDevices[i].obContract) {
-          // debugger
-          $.get('/api/devicePublicData/listById', '').then(data => {
-            // debugger
-          })
-        }
-      }
-    })
-    */
   },
 
   // This function deletes a devicePublicModel and devicePrivate model from the server.
@@ -232,44 +147,6 @@ export default {
       throw error;
     });
   }
-
-  /*
-  // Persist data to the PublicDeviceModel on the server
-  persistUserData(context) {
-    debugger;
-
-    // Create a publicDeviceModel from data in the store.
-    var tmpModel = {
-      username: context.state.userInfo.username,
-      dashIds: context.state.userInfo.dashIds,
-    };
-
-    //return new Promise(function(resolve, reject) {
-    $.ajax({
-      type: "PUT",
-      url: `/api/users/${context.state.userInfo.GUID}`,
-      headers: {
-        Authorization: `Bearer ${context.state.userInfo.token}`,
-      },
-      data: tmpModel,
-      success: handleSuccess,
-      dataType: "json",
-      error: handleError,
-    });
-
-    function handleSuccess(data, textStatus, jqXHR) {
-      debugger;
-      console.log(`User model updated on server.`);
-      //resolve(true);
-    }
-
-    function handleError(err) {
-      debugger;
-      reject(err);
-    }
-    //});
-  },
-*/
 };
 
 // Call the /device/listbyid/:id API.
